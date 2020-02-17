@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h1>Patient's appointments</h1>
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>Start time</th>
+          <th>End time</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Price paid?</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: appointments">
+        <tr>
+          <td data-bind="text: startTime"></td>
+          <td data-bind="text: endTime"></td>
+          <td data-bind="text: date"></td>
+          <td data-bind="text: description"></td>
+          <td data-bind="text: price"></td>
+          <td data-bind="text: feePaid"></td>
+          <td data-bind="text: id"></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Enter patient phone number to see appointments: <input data-bind="value: phoneNumber" /></p>
+    <button data-bind="click: getAppointments">Submit</button>
+  </main>
+  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+  <script type='text/javascript'>
+    const SERVERURI = 'http://localhost:3003/api/';
+    function patientAppointmentsViewModel() {
+      const self = this;
+
+      self.phoneNumber = ko.observable('');
+      self.appointments = ko.observableArray([]);
+      self.getAppointments = function() {
+        self.appointments.removeAll();
+        fetch(`${SERVERURI}patients/${self.phoneNumber()}/appointments`)
+          .then(res => res.json())
+          .then(apts => apts[0].appointments.forEach(apt => self.appointments.push(apt)));
+      }
+    }
+    ko.applyBindings(new patientAppointmentsViewModel());
+  </script>
+</body>
+
+</html>

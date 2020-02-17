@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h1>Enter patient details</h1>
+  <main>
+    <form data-bind="submit: handleSubmit">
+      <p>name: <input required data-bind="value: name" /></p>
+      <p>phoneNumber: <input required data-bind="value: phoneNumber" /></p>
+      <p>petName: <input required data-bind="value: petName" /></p>
+      <p>petType: <input required data-bind="value: petType" /></p>
+      <button type="submit">Create patient</button>
+    </form>
+    <h2 data-bind="if: patientCreated">
+      <b data-bind="text: patientCreated"></b>
+    </h2>
+  </main>
+  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+  <script type='text/javascript'>
+    const SERVERURI = 'http://localhost:3003/api/';
+    function newPatient() {
+      const self = this;
+
+      self.name = ko.observable('');
+      self.phoneNumber = ko.observable('');
+      self.petName = ko.observable('');
+      self.petType = ko.observable('');
+
+      self.patientCreated = ko.observable('');
+  
+      self.handleSubmit = function () {
+        fetch(
+          `${SERVERURI}patients`,
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              name: self.name(),
+              phoneNumber: self.phoneNumber(),
+              petName: self.petName(),
+              petType: self.petType(),
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(res => res.json())
+          .then(res => self.patientCreated(`${res.name} created`));
+      }
+    }
+    ko.applyBindings(new newPatient());
+  </script>
+</body>
+
+</html>

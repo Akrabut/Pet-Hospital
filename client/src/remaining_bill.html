@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h1>Patient's appointments</h1>
+  <main>
+    <p>Enter patient phone number to see appointments: <input data-bind="value: phoneNumber" /></p>
+    <button data-bind="click: getRemainingBill">Submit</button>
+    <h2 data-bind="text: remainingBill"></h2>
+  </main>
+  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+  <script type='text/javascript'>
+    const SERVERURI = 'http://localhost:3003/api/';
+    function remainingBillViewModel() {
+      const self = this;
+
+      self.phoneNumber = ko.observable('');
+      self.remainingBill = ko.observable('');
+
+      self.getRemainingBill = function () {
+        fetch(`${SERVERURI}patients/${self.phoneNumber()}?remainingBill`)
+          .then(res => res.json())
+          .then(bill => self.remainingBill(bill.toString()));
+      }
+    }
+    ko.applyBindings(new remainingBillViewModel());
+  </script>
+</body>
+
+</html>

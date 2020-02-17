@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hello there Valid!</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+    <main>
+      <p>First name: <strong data-bind="text: firstName"></strong></p>
+      <p>Last name: <strong data-bind="text: lastName"></strong></p>
+      
+      <p>First name: <input data-bind="value: firstName" /></p>
+      <p>Last name: <input data-bind="value: lastName" /></p>
+    </main>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+    <script type='text/javascript'>
+      const SERVERURI = 'http://localhost:3003/';
+      function AppViewModel() {
+        fetch(`${SERVERURI}api/patients`).then(res => res.json()).then(res => console.log(res))
+        this.firstName = ko.observable("Bert");
+        this.lastName = ko.observable("Bertington");
+      }
+      ko.applyBindings(new AppViewModel());
+    </script>
+    <script src="" async defer></script>
+  </body>
+</html>

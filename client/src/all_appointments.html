@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h1>All appointments</h1>
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>Start time</th>
+          <th>End time</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Price paid?</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: patients">
+        <tr>
+          <td data-bind="text: startTime"></td>
+          <td data-bind="text: endTime"></td>
+          <td data-bind="text: date"></td>
+          <td data-bind="text: description"></td>
+          <td data-bind="text: price"></td>
+          <td data-bind="text: feePaid"></td>
+          <td data-bind="text: id"></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+  <script type='text/javascript'>
+    const SERVERURI = 'http://localhost:3003/api/';
+    function allPatientsViewModel() {
+      const self = this;
+
+      self.patients = ko.observableArray([]);
+      fetch(`${SERVERURI}patients`).then(res => res.json()).then(res => {
+        res.forEach(patient => self.patients.push(patient));
+
+      });
+      console.log(self.patients);
+    }
+    ko.applyBindings(new allPatientsViewModel());
+  </script>
+</body>
+
+</html>
