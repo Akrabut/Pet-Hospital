@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h2>Delete patient</h2>
+  <form data-bind="submit: handleSubmit">
+    <h3>Enter patient phone number to delete: <input required data-bind="value: phoneNumber" /></h3>
+    <button type="submit">Delete patient</button>
+  </form>
+  <h2 data-bind="if: patientDeleted">
+    <b data-bind="text: patientDeleted"></b>
+  </h2>
+  </main>
+  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+  <script type='text/javascript'>
+    const SERVERURI = 'http://localhost:3003/api/';
+    function deletePatient() {
+      const self = this;
+
+      self.phoneNumber = ko.observable('');
+
+      self.patientDeleted = ko.observable('');
+
+      self.handleSubmit = function() {
+        fetch(
+          `${SERVERURI}patients/${self.phoneNumber()}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(res => self.patientDeleted(`patient ${res.name} deleted`));
+      }
+    }
+    ko.applyBindings(new deletePatient());
+  </script>
+</body>
+
+</html>
