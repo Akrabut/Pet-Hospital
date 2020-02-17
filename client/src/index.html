@@ -1,30 +1,47 @@
 <!DOCTYPE html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Hello there Valid!</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
-  </head>
-  <body>
-    <main>
-      <p>First name: <strong data-bind="text: firstName"></strong></p>
-      <p>Last name: <strong data-bind="text: lastName"></strong></p>
-      
-      <p>First name: <input data-bind="value: firstName" /></p>
-      <p>Last name: <input data-bind="value: lastName" /></p>
-    </main>
-    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
-    <script type='text/javascript'>
-      const SERVERURI = 'http://localhost:3003/';
-      function AppViewModel() {
-        fetch(`${SERVERURI}api/patients`).then(res => res.json()).then(res => console.log(res))
-        this.firstName = ko.observable("Bert");
-        this.lastName = ko.observable("Bertington");
-      }
-      ko.applyBindings(new AppViewModel());
-    </script>
-    <script src="" async defer></script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <ul class="links">
+    <a href="all_appointments.html" target="_blank" rel="noopener">
+      <li>All appointments</li>
+    </a>
+    <a href="all_patients.html" target="_blank" rel="noopener">
+      <li>All patients</li>
+    </a>
+    <a href="new_appointment.html" target="_blank" rel="noopener">
+      <li>New appointment</li>
+    </a>
+    <a href="new_patient.html" target="_blank" rel="noopener">
+      <li>New patient</li>
+    </a>
+    <a href="update_appointment.html" target="_blank" rel="noopener">
+      <li>Update appointment</li>
+    </a>
+    <a href="update_patient.html" target="_blank" rel="noopener">
+      <li>Update patient</li>
+    </a>
+    <a href="delete_appointment.html" target="_blank" rel="noopener">
+      <li>Delete appointment</li>
+    </a>
+    <a href="delete_patient.html" target="_blank" rel="noopener">
+      <li>Delete patient</li>
+    </a>
+    <a href="remaining_bill.html" target="_blank" rel="noopener">
+      <li>Remaining bill for patient</li>
+    </a>
+    <a href="unpaid_appointments.html" target="_blank" rel="noopener">
+      <li>Total unpaid appointments</li>
+    </a>
+  </ul>
+</body>
+
 </html>
