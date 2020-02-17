@@ -22,9 +22,10 @@
           <th>Price</th>
           <th>Price paid?</th>
           <th>ID</th>
+          <th>Patient's phone</th>
         </tr>
       </thead>
-      <tbody data-bind="foreach: patients">
+      <tbody data-bind="foreach: appointments">
         <tr>
           <td data-bind="text: startTime"></td>
           <td data-bind="text: endTime"></td>
@@ -33,6 +34,9 @@
           <td data-bind="text: price"></td>
           <td data-bind="text: feePaid"></td>
           <td data-bind="text: id"></td>
+          <td data-bind="if: patient.phoneNumber">
+            <span data-bind="text: patient.phoneNumber"></span>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -40,17 +44,16 @@
   <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
   <script type='text/javascript'>
     const SERVERURI = 'http://localhost:3003/api/';
-    function allPatientsViewModel() {
+    function allAppointmentsViewModel() {
       const self = this;
 
-      self.patients = ko.observableArray([]);
-      fetch(`${SERVERURI}patients`).then(res => res.json()).then(res => {
-        res.forEach(patient => self.patients.push(patient));
-
-      });
-      console.log(self.patients);
+      self.appointments = ko.observableArray([]);
+  
+      fetch(`${SERVERURI}appointments`)
+        .then(res => res.json())
+        .then(apts => apts.forEach(apt => self.appointments.push(apt)));
     }
-    ko.applyBindings(new allPatientsViewModel());
+    ko.applyBindings(new allAppointmentsViewModel());
   </script>
 </body>
 

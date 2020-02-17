@@ -12,14 +12,13 @@
 <body>
   <h2>Update appointment</h2>
     <form data-bind="submit: handleSubmit">
-      <h3>Enter appointment ID to change: <input required data-bind="value: appointment" /></h3>
-      <p>startTime: <input required data-bind="value: startTime" /></p>
-      <p>endTime: <input required data-bind="value: endTime" /></p>
-      <p>date: <input required data-bind="value: date" /></p>
-      <p>description: <input required data-bind="value: description" /></p>
-      <p>price: <input required data-bind="value: price" /></p>
-      <p>feePaid: <input required data-bind="value: feePaid" /></p>
-      <p>Patient's phone number: <input required data-bind="value: phone" /></p>
+      <h3>Enter appointment ID to change: <input required data-bind="value: id" /></h3>
+      <p>Start time: <input required data-bind="value: startTime" /></p>
+      <p>End time: <input required data-bind="value: endTime" /></p>
+      <p>Date: <input required data-bind="value: date" /></p>
+      <p>Description: <input required data-bind="value: description" /></p>
+      <p>Price: <input required data-bind="value: price" /></p>
+      <p>Fee paid?: <input required data-bind="value: feePaid" /></p>
       <button type="submit">Update appointment</button>
     </form>
     <h2 data-bind="if: appointmentUpdated">
@@ -29,7 +28,7 @@
   <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
   <script type='text/javascript'>
     const SERVERURI = 'http://localhost:3003/api/';
-    function newAppointment() {
+    function updateAppointment() {
       const self = this;
 
       self.id = ko.observable('');
@@ -39,37 +38,30 @@
       self.description = ko.observable('');
       self.price = ko.observable(0);
       self.feePaid = ko.observable('false');
-      self.phone = ko.observable('');
 
       self.appointmentUpdated = ko.observable('');
 
       self.handleSubmit = function() {
         fetch(
-          `${SERVERURI}appointments`,
+          `${SERVERURI}appointments/${self.id()}`,
           {
             method: 'PUT',
             body: JSON.stringify({
-              appointment: {
                 startTime: self.startTime(),
                 endTime: self.endTime(),
                 date: self.date(),
                 description: self.description(),
                 price: self.price(),
-                feePaid: (self.description() === 'true' ? true : false),
-              },
-              patient: {
-                phone: self.phone().toString(),
-              }
-            }),
+                feePaid: (self.feePaid().toLowerCase() === 'true' ? true : false),
+              }),
             headers: {
               'Content-Type': 'application/json',
             }
           })
-          .then(res => res.json())
           .then(res => self.appointmentUpdated(`Appointment with id ${self.id} updated`));
       }
     }
-    ko.applyBindings(new newAppointment());
+    ko.applyBindings(new updateAppointment());
   </script>
 </body>
 

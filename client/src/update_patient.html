@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello there Valid!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h2>Update patient</h2>
+  <form data-bind="submit: handleSubmit">
+    <h3>Enter patient phone number to change: <input required data-bind="value: phoneNumber" /></h3>
+      <p>name: <input required data-bind="value: name" /></p>
+      <p>Phone mumber: <input required data-bind="value: newPhoneNumber" /></p>
+      <p>Pet name: <input required data-bind="value: petName" /></p>
+      <p>Pet type: <input required data-bind="value: petType" /></p>
+    <button type="submit">Update patient</button>
+  </form>
+  <h2 data-bind="if: patientUpdated">
+    <b data-bind="text: patientUpdated"></b>
+  </h2>
+  </main>
+  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
+  <script type='text/javascript'>
+    const SERVERURI = 'http://localhost:3003/api/';
+    function updatePatient() {
+      const self = this;
+
+      self.name = ko.observable('');
+      self.phoneNumber = ko.observable('');
+      self.newPhoneNumber = ko.observable('');
+      self.petName = ko.observable('');
+      self.petType = ko.observable('');
+
+      self.patientUpdated = ko.observable('');
+
+      self.handleSubmit = function() {
+        fetch(
+          `${SERVERURI}patients/${self.phoneNumber()}`,
+          {
+            method: 'PUT',
+            body: JSON.stringify({
+              name: self.name(),
+              phoneNumber: self.newPhoneNumber(),
+              petName: self.petName(),
+              petType: self.petType(),
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(res => self.patientUpdated(`patient ${self.name()} updated`));
+      }
+    }
+    ko.applyBindings(new updatePatient());
+  </script>
+</body>
+
+</html>

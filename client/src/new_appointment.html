@@ -13,12 +13,12 @@
   <h1>Enter appointment details</h1>
   <main>
     <form data-bind="submit: handleSubmit">
-      <p>startTime: <input required data-bind="value: startTime" /></p>
-      <p>endTime: <input required data-bind="value: endTime" /></p>
-      <p>date: <input required data-bind="value: date" /></p>
-      <p>description: <input required data-bind="value: description" /></p>
-      <p>price: <input required data-bind="value: price" /></p>
-      <p>feePaid: <input required data-bind="value: feePaid" /></p>
+      <p>Start time: <input required data-bind="value: startTime" /></p>
+      <p>End time: <input required data-bind="value: endTime" /></p>
+      <p>Date: <input required data-bind="value: date" /></p>
+      <p>Description: <input required data-bind="value: description" /></p>
+      <p>Price: <input required data-bind="value: price" /></p>
+      <p>Fee paid?: <input required data-bind="value: feePaid" /></p>
       <p>Patient's phone number: <input required data-bind="value: phone" /></p>
       <button type="submit">Create appointment</button>
     </form>
@@ -54,7 +54,7 @@
                 date: self.date(),
                 description: self.description(),
                 price: self.price(),
-                feePaid: (self.description() === 'true' ? true : false),
+                feePaid: (self.feePaid().toLowerCase() === 'true' ? true : false),
               },
               patient: {
                 phone: self.phone().toString(),

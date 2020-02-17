@@ -51,6 +51,7 @@ async function updateAppointment(req, res) {
           feePaid: req.body.feePaid || appointment.feePaid,
           patient: appointment.patient,
         })).toJSON();
+    console.log(updated);
     res.code(204).send(updated);
   } catch (err) {
     generateError(res, 404, 'UpdateError', err._message, 'updateAppointment()');
